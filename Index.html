@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
   <!-- font awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+  <!-- animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <!-- custom -->
   <style>
     .flag{ cursor: pointer; }
@@ -35,9 +37,14 @@
       <span class="d-inline d-md-none">MODAS</span>
       <span class="d-none d-md-inline" style="font-variant:small-caps;">Moving Object Detection Alert System</span>
     </div>
-    <ul class="navbar-nav ml-auto mx-5" id="signIn">
+    <ul class="navbar-nav ml-auto mx-5" id="signIn" style="display:none;">
       <li class="nav-item">
           <a class="nav-link" href="#"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto mx-5" id="signOut" style="display:none;">
+      <li class="nav-item">
+        <a class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
       </li>
     </ul>
     <button disabled id="auto-refresh" type="button" class="btn btn-primary" data-val="false">
