@@ -3,7 +3,7 @@ $(function () {
   var refreshInterval;
   var snd = new Audio("bell.wav"); // buffers automatically when created
 
-  erifyToken()
+  verifyToken()
 
   function verifyToken() {
     // check for existing token
@@ -30,7 +30,7 @@ $(function () {
   function getEvents(page) {
     $.getJSON({
       headers: { "Authorization": 'Bearer ' + Cookies.get('token') },
-      url: "https://modasapi.azurewebsites.net/api/event/pagesize/10/page/" + page,
+      url: "https://modas-jsg.azurewebsites.net/api/event/pagesize/10/page/" + page,
       success: function (response, textStatus, jqXhr) {
         showTableBody(response.events);
         showPagingInfo(response.pagingInfo);
@@ -50,7 +50,7 @@ $(function () {
 
   function refreshEvents() {
     $.getJSON({
-      url: "https://modasapi.azurewebsites.net/api/event/count",
+      url: "https://modas-jsg.azurewebsites.net/api/event/count",
       success: function (response, textStatus, jqXhr) {
         if (response != $('#total').html()) {
           console.log("success");
@@ -82,10 +82,30 @@ $(function () {
       html += "</td>";
       html += "<td>" + get_time(e[i].stamp) + "</td>";
       html += "<td>" + e[i].loc + "</td>";
+      html += "<td><button data-id=\"" + e[i].id + "\" class=\"btn btn-outline-secondary delete\">Delete </button></td>";
       html += "</tr> ";
     }
     $('tbody').html(html);
   }
+
+
+
+  $('tbody').on('click', '.delete', function () {
+    var id = $(this).data('id');
+    $.ajax({
+      headers: { "Authorization": 'Bearer ' + Cookies.get('token') , "Content-Type": "application/json" , },
+      url: "https://modas-jsg.azurewebsites.net/api/event/" + $(this).data('id'),
+      type: 'delete',
+      success: function () {
+        // Toast
+        toast("Update Complete", "Event " + id +" deleted.", "far fa-edit");
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        // log the error to the console
+        console.log("The following error occured: " + jqXHR.status, errorThrown);
+      }
+    });
+  });
 
   function showPagingInfo(p) {
     $('#start').html(p.rangeStart);
@@ -208,7 +228,7 @@ function showErrors(errors){
     // AJAX to update database
     $.ajax({
       headers: { "Content-Type": "application/json" },
-      url: "https://modasapi.azurewebsites.net/api/event/" + $(this).data('id'),
+      url: "https://modas-jsg.azurewebsites.net/api/event/" + $(this).data('id'),
       type: 'patch',
       data: JSON.stringify([{ "op": "replace", "path": "Flagged", "value": checked }]),
       success: function () {
@@ -274,7 +294,7 @@ function showErrors(errors){
       // verify username and password using the token api
       $.ajax({
         headers: { 'Content-Type': 'application/json' },
-        url: "https://modasapi.azurewebsites.net/api/token",
+        url: "https://modas-jsg.azurewebsites.net/api/token",
         type: 'post',
         data: JSON.stringify({ "username": $('#username').val(), "password": $('#password').val() }),
         success: function (data) {
